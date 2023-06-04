@@ -6,3 +6,4 @@ exports.home = function (req, res) {
 exports.about = function (req, res) {
  res.status(200).json({msg: "About Page"})
 }
+
