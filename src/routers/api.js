@@ -5,7 +5,8 @@ const {
     addStudent,
     singleStudent,
     deleteStudent,
-    updateStudent
+    updateStudent,
+    testRoutes
 } = require("../controllers/studentControllers");
 
 const router = express.Router();
@@ -20,6 +21,7 @@ router.get('/student', getAllStudent);
 router.get('/student/:id', singleStudent);
 router.delete('/student/:id', deleteStudent);
 router.put('/student/:id', updateStudent);
+router.get('/test/:id', testRoutes);
 
 
 

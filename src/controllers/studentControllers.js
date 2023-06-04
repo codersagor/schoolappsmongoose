@@ -27,8 +27,13 @@ exports.getAllStudent = async function (req, res, next) {
 exports.singleStudent = async (req, res, next) => {
 
     const id = req.params.id;
-    let singleStudent = await studentModel.findOne({_id: id});
-    res.status(200).json({singleStudent});
+   await studentModel.findOne({_id: id}, {createdAt: 0, updatedAt: 0, _id: 0})
+        .then(results => {
+            res.status(200).json({results});
+    })
+        .catch(err => {
+            res.status(200).json({err});
+        })
 }
 
 // Delete a single Student
@@ -37,11 +42,30 @@ exports.deleteStudent = async (req, res, next) => {
     const id = req.params.id;
 
     // Delete a single student
-    await studentModel.deleteOne({_id: id}).then(()=> {
-        res.status(200).json({msg: "Student deleted"});
-    }).catch((err) => {
-        res.status(200).json({msg: "Student deleted failed"});
-    });
+    await studentModel.deleteOne({ _id: id })
+        .then((result) => {
+            if (result.deletedCount === 0) {
+                return res.status(404).json({ msg: "Student not found" });
+            }
+            res.status(200).json({ msg: "Student deleted" });
+        })
+        .catch((err) => {
+            res.status(500).json({ msg: "Student deletion failed", err});
+        });
+}
+
+// Test Rotues
+exports.testRoutes = async (req, res, next) => {
+    // Get Student id
+    const id = req.params.id;
+    // Delete a single student
+    await studentModel.deleteOne({ _id: id })
+        .then((result) => {
+            res.status(200).json(result);
+        })
+        .catch((err) => {
+            res.status(500).json({ msg: "Student deletion failed", err});
+        });
 }
 
 // Update Student
@@ -50,8 +74,9 @@ exports.updateStudent = async (req, res, next) => {
     let Query = { _id: id }
     let updates = req.body;
 
-    await studentModel.updateOne( Query, updates).then(()=> {
-            res.status(200).json({msg: "Data Updated"})
+    await studentModel.updateOne( Query, updates).then((results)=> {
+        console.log(results)
+            res.status(200).json({msg: "Data Updated", data: updates})
         }).catch(err => {
             console.log('Update Failed')
         })
