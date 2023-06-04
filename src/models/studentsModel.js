@@ -31,6 +31,9 @@ const studentSchema = mongoose.Schema({
         trim: true,
         default: "Student"
     }
+}, {
+    timestamps: true,
+    versionKey: false
 })
    const studentsModel = mongoose.model("students", studentSchema);
 

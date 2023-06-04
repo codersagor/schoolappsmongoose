@@ -1,12 +1,26 @@
 const express = require('express');
-const { home, about } = require("../controllers/controllers");
-const router  = express.Router();
+const {
+    home,
+    getAllStudent,
+    addStudent,
+    singleStudent,
+    deleteStudent,
+    updateStudent
+} = require("../controllers/studentControllers");
+
+const router = express.Router();
 
 // First get route
 router.get('/', home);
 router.get('/home', home);
 
-router.get('/about', about)
+// Mongoose Route
+router.post('/student', addStudent);
+router.get('/student', getAllStudent);
+router.get('/student/:id', singleStudent);
+router.delete('/student/:id', deleteStudent);
+router.put('/student/:id', updateStudent);
+
 
 
 module.exports = router;
