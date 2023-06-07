@@ -23,6 +23,4 @@ router.delete('/student/:id', deleteStudent);
 router.put('/student/:id', updateStudent);
 router.get('/test/:id', testRoutes);
 
-
-
 module.exports = router;

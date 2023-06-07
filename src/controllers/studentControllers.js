@@ -7,13 +7,13 @@ exports.home = function (req, res) {
 // Add Single Student
 exports.addStudent = async function  (req, res, next) {
     // Get Data from Body
-  const rechiveData = req.body;
+  const receiveData = req.body;
 
    // Send Data to Database
-  await studentModel.create(rechiveData)
-      .then(() => {res.status(201).json({msg: "Data Inserted"})})
+  await studentModel.create(receiveData)
+      .then((results) => {res.status(201).json({msg: "Data Inserted", results: results})})
       .catch((err) => {
-          res.status(200).json({msg: "Data Insert Failed"})
+          res.status(200).json({msg: "Data Insert Failed", error: err  })
       });
 }
 
@@ -27,12 +27,12 @@ exports.getAllStudent = async function (req, res, next) {
 exports.singleStudent = async (req, res, next) => {
 
     const id = req.params.id;
-   await studentModel.findOne({_id: id}, {createdAt: 0, updatedAt: 0, _id: 0})
+   await studentModel.findOne({ _id: id }, {createdAt: 0, updatedAt: 0})
         .then(results => {
             res.status(200).json({results});
     })
         .catch(err => {
-            res.status(200).json({err});
+            res.status(200).json({msg:"Student Dont Found", Error: err});
         })
 }
 
